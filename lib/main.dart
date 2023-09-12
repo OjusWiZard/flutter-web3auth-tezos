@@ -302,7 +302,7 @@ class _MyAppState extends State<MyApp> {
         signer,
         tezosKeyStore,
         'tz1Us2tdTrvuvMoECavB8ZFadi9QVhrZDzBq',
-        059005 - 582,
+        1, // 1e-6 tez
       );
       debugPrint(receipt.toString());
       setState(() {
