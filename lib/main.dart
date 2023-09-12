@@ -14,7 +14,6 @@ import 'dart:async';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
 
 // ignore: depend_on_referenced_packages
-import 'package:http/http.dart';
 import 'package:dartez/dartez.dart';
 import 'package:dartez/helper/generateKeys.dart';
 
@@ -35,7 +34,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _result = '';
   bool logoutVisible = false;
-  String rpcUrl = 'https://rpc.ghostnet.teztnets.xyz';
+  String rpcUrl = 'https://rpc.ghostnet.teztnets.xyz'; // for testnet
+  // String rpcUrl = 'https://rpc.tzbeta.net/'; // for mainnet
 
   @override
   void dispose() {
@@ -297,24 +297,18 @@ class _MyAppState extends State<MyApp> {
     final signer = Dartez.createSigner(tezosPrivateKey);
 
     try {
-      final respone = await get(Uri.parse(
-          '$rpcUrl/chains/main/blocks/head/context/contracts/${tezosKeyStore.publicKeyHash}/manager_key'));
-      final isKeyRevealed = respone.statusCode == 200;
-
       final receipt = await Dartez.sendTransactionOperation(
         rpcUrl,
         signer,
         tezosKeyStore,
         'tz1Us2tdTrvuvMoECavB8ZFadi9QVhrZDzBq',
-        500000,
-        offset: 1500,
-        isKeyRevealed: isKeyRevealed,
+        059005 - 582,
       );
-      debugPrint(receipt);
+      debugPrint(receipt.toString());
       setState(() {
-        _result = receipt;
+        _result = receipt.toString();
       });
-      return receipt;
+      return receipt.toString();
     } catch (e) {
       setState(() {
         _result = e.toString();
